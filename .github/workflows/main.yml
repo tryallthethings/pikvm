@@ -1,0 +1,21 @@
+name: Fork Sync
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes
+  workflow_dispatch: # on button click
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: TG908/fork-sync@v1.2
+    # Owner of the forked repository
+        with:
+          owner: pikvm
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          head: master
+          base: origin-sync
+          merge_method: merge
+          pr_title: Fork Sync
