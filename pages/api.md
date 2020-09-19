@@ -1,5 +1,5 @@
 # API
-This document describes the Pi-KVM API. Since the system consists of microservices, here is a common API with a common entry point provided by Nginx. The examples above use `curl` and `websocat` with the `-k` parameter to disable SSL certificate verification, since the self-signed certificateis used in the default installation.
+This document describes the Pi-KVM API. Since the system consists of microservices, here is a common API with a common entry point provided by Nginx. The examples above use `curl` and [`websocat`](https://github.com/vi/websocat) with the `-k` parameter to disable SSL certificate verification, since the self-signed certificateis used in the default installation.
 
 ## Authorization: `/api/auth`
 All APIs are restricted to authorization. To make requests, you either need to authorize each request individually,
@@ -16,10 +16,10 @@ There are two options here:
     ```
     $ curl -k --user admin:admin https://pikvm/api/auth/check
     ```
-#### Session-based (token) auth
+#### Session-based cookie auth
 1. Authorize and get token for the user using `POST /api/auth/login`:
     ```
-    $ curl -k -vv -X POST --data user=admin --data passwd=admin https://pikvm/api/auth/login
+    $ curl -k -v -X POST --data user=admin --data passwd=admin https://pikvm/api/auth/login
     ...
     < Set-Cookie: auth_token=796cb83b11de4fcb749bc1bad14a91fb06dede84672b2f847fef1e988e6900de; Path=/
     ...
