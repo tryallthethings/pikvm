@@ -389,6 +389,7 @@ These kind people donated money to the Pi-KVM project and supported work on it. 
 * Mark Robinson
 * Martin Gasser
 * Mauricio Allende
+* Mehmet Aydoğdu
 * Michael Kovacs
 * Michael Lynch
 * Morgan Helton
@@ -408,3 +409,4 @@ These kind people donated money to the Pi-KVM project and supported work on it. 
 * Walter_Ego
 * YURI LEE
 * zgen
+* Zsombor Vari
