@@ -377,6 +377,10 @@ If you wish to use Pi-KVM in production, we accept orders to modify it for your 
 
 # Special thanks
 These kind people donated money to the Pi-KVM project and supported work on it. We are very grateful for their help, and commemorating their names is the least we can do in return.
+
+<details>
+  <summary>View all people!</summary>
+
 * Accalia
 * adipisicing
 * Alberto Bassi
@@ -440,6 +444,7 @@ These kind people donated money to the Pi-KVM project and supported work on it. 
 * Heikki Tiittanen
 * Henry Hood
 * HimKo
+* Icculus
 * iks
 * Ivan Shapovalov
 * Jacob Morgan
@@ -541,3 +546,4 @@ These kind people donated money to the Pi-KVM project and supported work on it. 
 * Yurii Ostapchuk
 * zgen
 * Zsombor Vari
+</details>
