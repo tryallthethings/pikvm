@@ -24,3 +24,32 @@ Specifically to v2. When combined with configuring a DNS server, FTP, or SMB (fo
     To view other available configuration parameters, use the command `kvmd -m`.
 3. To enable the service, use the command `systemctl enable kvmd-otgnet`.
 4. Perform `reboot`.
+
+## Routing via Pi-KVM
+
+By default, `kvmd-otgnet` will configure network connection between Pi-KVM and the server host only. The server host will not be able to reach other hosts beyond Pi-KVM. If the full network access is required from the server host through the USB-Ethernet feature (access all hosts Pi-KVM can access), additional settings are needed in `/etc/kvmd/override.yaml`.
+
+1. Run `echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/99-kvmd-extra.conf`.
+2. Add network interface to forward requests to (default gateway) by adding a line `forward_iface: <interface name>` under `firewall:`. Typically it would be `eth0` if the built-in ethernet port is used::
+    ```yaml
+    otgnet:
+        firewall:
+            forward_iface: eth0
+    ```
+3. Add DNS server to provide host name resolution service. For example, adding `8.8.8.8` as DNS server requires addition of `dnsmasq` dhcp options. This can be done by adding following lines to `/etc/kvmd/override.yaml`:
+    ```yaml
+    otgnet:
+        commands:
+            post_start_cmd_append:
+            - "--dhcp-option=6,8.8.8.8"
+    ```
+4. Combining above two together::
+    ```yaml
+    otgnet:
+        firewall:
+            forward_iface: eth0
+        commands:
+            post_start_cmd_append:
+            - "--dhcp-option=6,8.8.8.8"
+    ```
+5. Don't forget `reboot.
