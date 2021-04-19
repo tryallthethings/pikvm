@@ -139,7 +139,7 @@ As a first step we recommend carefully reading our documentation on [GitHub](htt
 </details>
 
 <details>
-  <summary><b>Mass-storage device working (I can boot an image from Pi-KVM v2+), but keyboard/mouse does not</b></summary>
+  <summary><b>Mass storage drive working (I can boot an image from Pi-KVM v2+), but keyboard/mouse does not</b></summary>
 
 * In very rare cases, some motherboards contain a buggy BIOS that does not understand the composite USB device because BIOS doesn't implement the USB stack correctly. In this case, we can suggest the [Arduino HID emulator](arduino_hid.md) from v0 platform with v2+. Thus the Pi-KVM will be connected by two USB cables to the motherboard: one of them will be responsible for the keyboard and mouse, the other for everything else.
 </details>
@@ -148,4 +148,72 @@ As a first step we recommend carefully reading our documentation on [GitHub](htt
   <summary><b>I can't get into UEFI/FileVault when booting my Mac using Pi-KVM v2+</b></summary>
   
 * The problem is specific to early-model Macs and does not occur on ARM-based Macs (Apple M1 or so). UEFI does not initialize the keyboard of the composite device during boot, however, if you use the standard keyboard to get to the UEFI/FileVault menu, you will see that the keyboard, mouse, and mass storage will work fine. In this case, we can suggest the [Arduino HID emulator](arduino_hid.md) from v0 platform with v2+. Thus the Pi-KVM will be connected by two USB cables to the Mac: one of them will be responsible for the keyboard and mouse, the other for everything else.
+</details>
+
+<details>
+  <summary><b>Big mouse latency on another Raspberry as managed server</b></summary>
+
+* Unusual case: RPi4 is used as a Pi-KVM to control RPi3. In this case, the mouse delay may be several seconds. To fix it, just add line `usbhid.mousepoll=0` to `/boot/config.txt` to the server (i.e. RPI3 in our case) and reboot it.
+</details>
+
+-----
+# Web UI problems
+
+<details>
+  <summary><b>Chrome Certificate Issue</b></summary>
+
+* The latest versions of Chrome do not allow access to the page with a self signed certificate, so if you see the following screen when loading the pi-kvm website:
+
+  <img src="../img/chrome.png" alt="Chrome Blocking" width="400"/>
+
+* You can proceed by typing ```thisisunsafe``` and Chrome will then load the page.
+</details>
+
+<details>
+  <summary><b>Pressing ESC in full screen mode causes this to close</b></summary>
+
+* Your browser does not support [keyboard lock](https://caniuse.com/mdn-api_keyboard_lock). Right now, only Chrome implements this.
+</details>
+
+<details>
+  <summary><b>I can't use this on iOS: the Web UI network indicator flashes yellow</b></summary>
+
+* Safari on iOS contains an old bug that prevents a web application from connecting over a web socket if you use a self-signed certificate on the server (the default for Pi-KVM). There are two solutions:
+  - Install a valid SSL certificate for Pi-KVM host to `/etc/kvmd/nginx/ssl`.
+  - Disable HTTPS at all in `/etc/kvmd/nginx/nginx.conf`. To do this, comment some lines [like in this file](https://github.com/pikvm/kvmd/blob/master/configs/nginx/nginx.conf#L39) and restart web server: `systemctl restart kvmd-nginx`.
+
+    :exclamation: Don't do this for insecure networks or the Internet. Your passwords and what you type on the keyboard will be transmitted in unencrypted form.
+</details>
+
+<details>
+  <summary><b>The Web UI doesn't work properly in Firefox while it works fine in Chrome</b></summary>
+
+* This might be related to your specific hardware combination or browser hardware acceleration. Try [disabling hardware acceleration in Firefox](https://support.mozilla.org/en-US/kb/hardware-acceleration-and-windowblinds-crash) or updating your GPU and chipset drivers.
+</details>
+
+<details>
+  <summary><b>Unexpected interruption while loading the image for Mass storage drive</b></summary>
+
+* If problems occur when uploading even a small disk image it may be due to unstable network operation or antivirus software. It is well known that Kaspersky antivirus cuts off Pi-KVM connections during uploading, so you should add the Pi-KVM website to Kaspersky's list of exceptions or not filter web requests with the antivirus. Antivirus programs can also affect the performance of certain interface elements, for example the quality slider. For Kaspersky, the steps to add the network address of Pi-KVM's website to the exclusion list is: **Protection -> Private browsing -> Categories and exclusions -> Exclusions**.
+</details>
+
+<details>
+  <summary><b>I can't copy clipboard contents from the server (the machine controlled via Pi-KVM) to the client</b></summary>
+
+* The clipboard only works from the client to the server not vice versa. There is currently no way to do it.
+</details>
+
+-----
+# Hardware problems
+
+<details>
+  <summary><b>No Wi-Fi on Raspberry Pi Zero W</b></summary>
+
+* Some Zeros contain a defective Wi-Fi chip. You can either return the device to the store, or try the [software workaround](https://github.com/pikvm/pikvm/issues/137).
+</details>
+
+<details>
+  <summary><b>LEDs/Switches does not work in ATX control</b></summary>
+
+* Double check your wiring as per [the documentation](/README.md#setting-up-the-v2). Make sure you placed the relays (G3VM-61A1) in the correct orientation. The relays for switches (Power, Reset) have a different orientation than the ones for LEDs.
 </details>
