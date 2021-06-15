@@ -10,6 +10,8 @@ If you are upgrading to an older version of the OS, you will need to manually en
 ```
 Then restart the Web UI and then in the **System** menu you will see the video mode switch.
 
+:exclamation: **If you do not see the switch, it means that either your browser does not support WebRTC, or the `kvmd-janus` service was not started.**
+
 # Subtleties
 The MJPEG video stream uses the same HTTP connection that you use to download the web interface.
 This means that for remote access, you just need to forward ports 80 and 443 on your router.
@@ -34,12 +36,15 @@ janus:
 ```
 And restart `systemctl restart kvmd-janus`.
 
-# Custom Janus config
-[Janus](https://janus.conf.meetecho.com) is a WebRTC gateway that is used to transmit the [uStreamer](https://github.com/pikvm/ustreamer) video.
+# ~~Custom Janus config~~
+❗**Custom config is not working right now**
+
+~~[Janus](https://janus.conf.meetecho.com) is a WebRTC gateway that is used to transmit the [uStreamer](https://github.com/pikvm/ustreamer) video.
 KVMD-Janus is a wrapper around it, configuring and monitoring changes in the network configuration. This is suitable for most users.
 However, if your Pi-KVM is not connected to the Internet and/or you want to use a custom Janus configuration,
 then you should use the `kvmd-janus-static` service instead. You should first change the Janus configuration yourself.
-You can find it in `/etc/kvmd/janus/janus.jcfg`.
+You can find it in `/etc/kvmd/janus/janus.jcfg`.~~
+
 ```
 # systemctl disable --now kvmd-janus
 ...
